@@ -1,0 +1,23 @@
+.dot {
+    background-color: black;
+    border-radius: 50%;
+    width: 20px;
+    height: 20px;
+    margin: auto;
+}
+
+.cell {
+    border: 1px solid black;
+    padding: 10px;
+}
+
+#slot-paginate {
+    .pagination {
+        justify-content: center;
+    }
+}
+
+//TO DO fix html element css
+label {
+    padding-top: 5px;
+}

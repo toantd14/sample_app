@@ -1,0 +1,27 @@
+body {
+    min-height: 100vh;
+}
+
+.box-container {
+    min-height: calc(100vh - 126px);
+}
+
+p.error {
+    color: red;
+    margin-top: 10px;
+    display: block;
+    width: 100%;
+}
+
+.timepicker {
+    text-align: center;
+}
+
+.datepicker {
+    text-align: center;
+}
+
+//TO DO : fix important
+.symbol-label {
+    padding-right: 0px !important;
+}

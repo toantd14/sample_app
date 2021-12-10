@@ -1,0 +1,3023 @@
+swagger: "2.0"
+info:
+  description: This is a API for CarParking
+  version: 1.0.0
+  title: Car Parking API
+  # put the contact info for your development or API team
+  contact:
+    email: you@your-company.com
+
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+
+paths:
+  # Api authentication
+  /auth/login/email:
+    post:
+      tags:
+        - Authentication
+      summary: login by email password
+      operationId: postLoginEmail
+      description: login by email password
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            type: object
+            properties:
+              email:
+                description: email user
+                type: string
+                example: test1@gmail.com
+              password:
+                description: password
+                type: string
+                example: 12345678
+      responses:
+        200:
+          description: login success
+          schema:
+            type: object
+            properties:
+              accessToken:
+                type: string
+                example: "0b4988667ed668d7b4259bab31d56210"
+              refreshToken:
+                type: string
+                example: "8a6711610f4970ca5c3362497ee632e3"
+              expiredTime:
+                type: string
+                example: "2020-07-30T05:11:50+00:00"
+        400:
+          description: wrong email or password
+          schema:
+            type: object
+            properties:
+              errors:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: ["無効なメールアドレスまたはパスワード"]
+        422:
+          description: email/password field is required.
+          schema:
+            type: object
+            properties:
+              errors:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example:
+                      ["メールアドレスは必須です。", "パスワードは必須です。"]
+        500:
+          description: something went wrong on our end
+          schema:
+            type: object
+            properties:
+              errors:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: ["終わりに問題が発生しました"]
+  /auth/login/google:
+    post:
+      tags:
+        - Authentication
+      summary: login by google
+      operationId: postLoginGoogle
+      description: login by google
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            type: object
+            properties:
+              idToken:
+                description: token id google
+                type: string
+                example: "ayJhbGciOiJSUzI1NiIsImtp"
+      responses:
+        200:
+          description: login success
+          schema:
+            type: object
+            properties:
+              accessToken:
+                type: string
+                example: "byJhbGciOiJSUzI1NiIsImtp"
+              refreshToken:
+                type: string
+                example: "cyJhbGciOiJSUzI1NiIsImtp"
+              expiredTime:
+                type: string
+                example: "2020-07-30T05:11:50+00:00"
+        400:
+          description: expired token
+          schema:
+            type: object
+            properties:
+              errors:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: ["不正または期限切れのトークン"]
+        422:
+          description: params idToken field is required.
+          schema:
+            type: object
+            properties:
+              errors:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: ["id tokenは必須です。"]
+        500:
+          description: something went wrong on our end
+          schema:
+            type: object
+            properties:
+              errors:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: ["終わりに問題が発生しました"]
+  /auth/login/facebook:
+    post:
+      tags:
+        - Authentication
+      summary: login by facebook
+      operationId: postLoginFaceBook
+      description: login by facebook
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            type: object
+            properties:
+              accessToken:
+                description: access token facebook after login facebook success
+                type: string
+                example: "ayJhbGciOiJSUzI1NiIsImtp"
+      responses:
+        200:
+          description: login success
+          schema:
+            type: object
+            properties:
+              accessToken:
+                type: string
+                example: "byJhbGciOiJSUzI1NiIsImtp"
+              refreshToken:
+                type: string
+                example: "cyJhbGciOiJSUzI1NiIsImtp"
+              expiredTime:
+                type: string
+                example: "2020-07-30T05:11:50+00:00"
+        400:
+          description: expired access token
+          schema:
+            type: object
+            properties:
+              errors:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: ["不正または期限切れのトークン"]
+        422:
+          description: params accessToken field is required.
+          schema:
+            type: object
+            properties:
+              errors:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: ["acess tokenは必須です。"]
+        500:
+          description: something went wrong on our end
+          schema:
+            type: object
+            properties:
+              errors:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: ["終わりに問題が発生しました"]
+  /auth/login/line:
+    post:
+      tags:
+        - Authentication
+      summary: login by line
+      operationId: postLoginLine
+      description: login by line
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            type: object
+            properties:
+              accessToken:
+                description: access token of LINE after successful login
+                type: string
+                example: "ayJhbGciOiJSUzI1NiIsImtp"
+      responses:
+        200:
+          description: login success
+          schema:
+            type: object
+            properties:
+              accessToken:
+                type: string
+                example: "byJhbGciOiJSUzI1NiIsImtp"
+              refreshToken:
+                type: string
+                example: "cyJhbGciOiJSUzI1NiIsImtp"
+              expiredTime:
+                type: string
+                example: "2020-07-30T05:11:50+00:00"
+        400:
+          description: expired access token
+          schema:
+            type: object
+            properties:
+              errors:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: ["不正または期限切れのトークン"]
+        422:
+          description: params accessToken field is required.
+          schema:
+            type: object
+            properties:
+              errors:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: ["acess tokenは必須です。"]
+        500:
+          description: something went wrong on our end
+          schema:
+            type: object
+            properties:
+              errors:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: ["終わりに問題が発生しました"]
+  /refresh/token:
+    post:
+      tags:
+        - Authentication
+      summary: refresh token
+      operationId: postRefreshToken
+      description: refresh token
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            type: object
+            properties:
+              refreshToken:
+                description: param refresh token
+                type: string
+                example: "ayJhbGciOiJSUzI1NiIsImtp"
+      responses:
+        200:
+          description: success
+          schema:
+            type: object
+            properties:
+              accessToken:
+                type: string
+                example: "byJhbGciOiJSUzI1NiIsImtp"
+              refreshToken:
+                type: string
+                example: "cyJhbGciOiJSUzI1NiIsImtp"
+              expiredTime:
+                type: string
+                example: "2020-07-30T05:11:50+00:00"
+        400:
+          description: expired refresh token
+          schema:
+            type: object
+            properties:
+              errors:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: ["不正または期限切れのトークン"]
+        422:
+          description: params refreshToken field is required.
+          schema:
+            type: object
+            properties:
+              errors:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: ["refresh tokenは必須です。"]
+        500:
+          description: something went wrong on our end
+          schema:
+            type: object
+            properties:
+              errors:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: ["終わりに問題が発生しました"]
+  # Api car parking
+  /parking_lot:
+    get:
+      tags:
+        - Car Parking
+      summary: list car parking lot
+      operationId: getListParkingLot
+      description: list car parking lot
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - in: header
+          name: Authorization
+          type: string
+        - name: body
+          in: body
+          required: true
+          schema:
+            type: object
+            required:
+              - lat
+              - lon
+              - radius
+              - page
+              - pageSize
+              - sort
+            properties:
+              lat:
+                description: required
+                type: string
+                format: double(9, 6)
+                example: -76.606636
+              lon:
+                description: required
+                type: string
+                format: double(9, 6)
+                example: -76.606636
+              radius:
+                description: required
+                type: string
+                format: double(9, 6)
+                example: -76.606636
+              carType:
+                description: value 1, 2, 3 in 1-車種_普通; 2-車種_３ナンバ; 3-車種_軽自動車
+                type: integer
+                format: int64
+                example: 1
+              parkingForm:
+                description: value 0, 1, 2, 3, 4 in 0-平面駐車場（ロック式）、1-平面駐車場（ロックレス式）、2-平面駐車場（ゲート式）、3-機械式立体駐車場、4-自走式立体駐車場
+                type: integer
+                format: int64
+                example: 0
+              useDate:
+                description: use date
+                type: string
+                example: 27/07/2020 8:44:00
+              loanType:
+                description: valid value time_flg, day_flg, month_flg, period_flg
+                type: array
+                items:
+                  type: string
+                example: ["time_flg", "day_flg", "month_flg", "period_flg"]
+              is24Hour:
+                description: true get parking open 24h, false get all
+                type: boolean
+                example: true
+              page:
+                type: integer
+                format: int64
+                example: 1
+              pageSize:
+                type: integer
+                format: int64
+                example: 10
+              sort:
+                description: value 0 , 1, 2, 3  0-default; 1-distance; 2-evaluation; 3-review
+                type: integer
+                format: int64
+                example: 1
+      responses:
+        200:
+          description: success
+          schema:
+            $ref: "#/definitions/ListCarParking"
+        401:
+          description: Unauthorized
+          schema:
+            type: object
+            properties:
+              errors:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: ["あなたは無許可です"]
+        422:
+          description: field is required.
+          schema:
+            type: object
+            properties:
+              errors:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: ["フィールドは必須項目です"]
+        500:
+          description: something went wrong on our end
+          schema:
+            type: object
+            properties:
+              errors:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: ["終わりに問題が発生しました"]
+  /parking_lot/{id}:
+    get:
+      tags:
+        - Car Parking
+      summary: car parking lot detail
+      operationId: getParkingLot
+      description: car parking lot detail
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - in: header
+          name: Authorization
+          type: string
+        - in: path
+          name: id
+          description: id of car parking
+          required: true
+          type: integer
+      responses:
+        200:
+          description: success
+          schema:
+            $ref: "#/definitions/DetailCarParking"
+        401:
+          description: Unauthorized
+          schema:
+            type: object
+            properties:
+              errors:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: ["あなたは無許可です"]
+        422:
+          description: field is required.
+          schema:
+            type: object
+            properties:
+              errors:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: ["フィールドは必須項目です"]
+        500:
+          description: something went wrong on our end
+          schema:
+            type: object
+            properties:
+              errors:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: ["終わりに問題が発生しました"]
+  /parking/register:
+    post:
+      tags:
+        - Car Parking
+      summary: Book carparking
+      operationId: postBookCarParking
+      description: Book carparking
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - in: header
+          name: Authorization
+          type: string
+          required: true
+        - name: body
+          in: body
+          required: true
+          schema:
+            type: object
+            required:
+              - parkingID
+              - bookingType
+              - startDate
+              - carNo
+              - carType
+              - firstName
+              - lastName
+              - firstNameKana
+              - lastNameKana
+              - phoneNumber
+              - customerType
+              - paymentType
+              - paymentToken
+              - contractorName
+              - contractID
+              - prefectures
+              - municipality
+              - townname
+              - telPhone
+            properties:
+              parkingID:
+                description: required|long|min:1
+                type: integer
+                format: int64
+                example: 0
+              bookingTime:
+                type: object
+                properties:
+                  bookingType:
+                    description: bookingType visit_no -> 0 - month (Cho thuê theo tháng) , 1 - period (Cho thuê theo kỳ hạn), 2 - Hours (Cho thuê theo giờ) , 3 - Day (Cho thuê theo ngày)
+                    type: integer
+                    example: 0
+                  startDate:
+                    description: YYYY-MM-DD
+                    type: string
+                    example: YYYY-MM-DD
+                  startTime:
+                    description: Required if bookingType is hour and day (book theo giờ hoặc theo ngày)
+                    type: string
+                    example: HH:mm
+                  endTime:
+                    description: Required if bookingType is hour (book theo giờ)
+                    type: string
+                    example: HH:mm
+                  month:
+                    description: Required if bookingType is month (book tháng)
+                    type: integer
+                    example: 5
+                  endDate:
+                    description: Required if bookingType is period (book period)
+                    type: string
+                    example: YYYY-MM-DD
+              customerInfo:
+                type: object
+                properties:
+                  carNo:
+                    description: required
+                    type: string
+                  carType:
+                    description: required
+                    type: string
+                    example: 1
+                  firstName:
+                    description: required if type is customerType = 0 - Personal
+                    type: string
+                  lastName:
+                    description: required if type is customerType = 0 - Personal
+                    type: string
+                  firstNameKana:
+                    description: required if type is customerType = 0 - Personal
+                    type: string
+                  lastNameKana:
+                    description: required if type is customerType = 0 - Personal
+                    type: string
+                  phoneNumber:
+                    description: required
+                    type: string
+                    example: 0123123123
+                  customerType:
+                    description: required; division  -> division  ( 0 - Personal, 1 - Corporation )
+                    type: integer
+                    example: 1
+                  corporateName:
+                    description: required if type is customerType = 1 - Corporation
+                    type: string
+                  departmentName:
+                    description: required if type is customerType = 1 - Corporation
+                    type: string
+                  contactName:
+                    description: required if type is customerType = 1 - Corporation
+                    type: string
+              paymentInfo:
+                type: object
+                properties:
+                  paymentType:
+                    description: required; payment_division_reservation  -> payment_division_reservation  ( 0 - credit card, 1 - combini, 2 - Hóa đơn yêu cầu thanh toán corporation )
+                    type: integer
+                    example: 0
+                  paymentToken:
+                    description: required| (nếu paymentType = 0 -> nhận giá trị token 36 ký tự, paymentType = 1 -> nhận giá trị combini (0 - SEVEN_ELEVEN, 1 - LAWSON, 2 - FAMILY_MART) )
+                    type: string
+                    example: d579c053-2374-4204-8593-9314d0e742dd
+                  paymentPhoneNumber:
+                    description: required nếu là combini
+                    type: string
+                    example: d579c053-2374-4204-8593-9314d0e742dd
+              contract:
+                description: Chỉ yêu cầu thêm khi khách hàng đặt lịch theo tháng hoặc theo period.
+                type: object
+                properties:
+                  contractorName:
+                    description: Required if bookingType is month or period (book tháng hoặc period)
+                    type: string
+                    example: dothanh
+                  contractID:
+                    description: Required if bookingType is month or period (book tháng hoặc period), phải tồn tại trong bảng tbl_contract_template
+                    type: string
+                    example: dothanh
+                  zipCd:
+                    type: string
+                    example: dothanh
+                  prefectures:
+                    description: Required if bookingType is month or period (book tháng hoặc period), phải tồn tại trong bảng mst_prefetures
+                    type: string
+                    example: dothanh
+                  municipality:
+                    description: Required if bookingType is month or period (book tháng hoặc period)
+                    type: string
+                  townname:
+                    description: Required if bookingType is month or period (book tháng hoặc period)
+                    type: string
+                  telPhone:
+                    description: Required if bookingType is month or period (book tháng hoặc period)
+                    type: string
+                  building:
+                    type: string
+
+      responses:
+        200:
+          description: success
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
+                example: 成功
+              data:
+                type: object
+                properties:
+                  receiptNumber:
+                    type: integer
+                    example: 2020091525965863
+        401:
+          description: Unauthorized
+          schema:
+            type: object
+            properties:
+              errors:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: ["あなたは無許可です"]
+
+        422:
+          description: field is required.
+          schema:
+            type: object
+            properties:
+              errors:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example:
+                      [
+                        "フィールドは必須項目です",
+                        "時間貸しはOffなので、設定できません。, 予約日は現在の日付より前に選択できません。",
+                      ]
+
+        400:
+          description: payment fail
+          schema:
+            type: object
+            properties:
+              errors:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: ["決済が失敗しました"]
+
+        404:
+          description: not found item
+          schema:
+            type: object
+            properties:
+              errors:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: ["駐車場が存在していません。"]
+
+        406:
+          description: prefectures hoặc contractID không tồn tại trong bảng cha
+          schema:
+            type: object
+            properties:
+              errors:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: ["ContractIDは存在しません。"]
+        500:
+          description: something went wrong on our end
+          schema:
+            type: object
+            properties:
+              errors:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: ["終わりに問題が発生しました"]
+  #api get contract template
+  /contract_template:
+    get:
+      tags:
+        - Contract Template
+      summary: api get contract template
+      operationId: getContractTemplate
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      responses:
+        200:
+          description: Success
+          schema:
+            type: object
+            properties:
+              data:
+                type: string
+                description: Data được lấy từ trường use_terms bảng tbl_contract_template
+                example: Ea dolore vel eligendi distinctio atque sit vel.
+              contractID:
+                type: integer
+                description: id của bảng tbl_contract_template
+                example: 9329085
+        500:
+          description: Something went wrong on our end
+          schema:
+            type: object
+            properties:
+              errors:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: ["終わりに問題が発生しました"]
+
+  #api get contract template
+  /notification/detail/{noticeID}:
+    get:
+      tags:
+        - Notification
+      summary: api get notification Detail
+      operationId: getNotificationDetail
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - in: header
+          name: Authorization
+          type: string
+        - in: path
+          name: noticeID
+          description: id of tbl_owner_notice
+          required: true
+          type: integer
+      responses:
+        200:
+          description: Success
+          schema:
+            type: object
+            properties:
+              noticeID:
+                type: object
+                description: Trả về id của bảng tbl_owner_notice
+                example: 1
+              noticeTitle:
+                type: string
+                description: Trả về noticeTitle của bảng tbl_owner_notice
+                example: "成功"
+              noticeDetails:
+                type: string
+                description: Trả về noticeDetails của bảng tbl_owner_notice
+                example: "成功"
+              createdAt:
+                type: string
+                description: Trả về create_at của bảng tbl_owner_notice
+                example: "2020-09-09T13:09:49+09:00"
+
+        404:
+          description: not found item
+          schema:
+            type: object
+            properties:
+              errors:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: ["駐車場が存在していません。"]
+
+        500:
+          description: Something went wrong on our end
+          schema:
+            type: object
+            properties:
+              errors:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: ["終わりに問題が発生しました"]
+
+  /notification:
+    get:
+      tags:
+        - Notification
+      summary: api get notification
+      operationId: getNotification
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - in: header
+          name: Authorization
+          type: string
+        - in: query
+          name: parkingID
+          description: Mã số bãi để xe
+          required: true
+          type: integer
+        - in: query
+          name: page
+          description: page index
+          required: true
+          type: integer
+        - in: query
+          name: pageSize
+          description: số lượng data 1 page
+          required: true
+          type: integer
+
+      responses:
+        200:
+          description: Success
+          schema:
+            type: object
+            properties:
+              data:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    noticeID:
+                      type: integer
+                      description: Trả về notics_cd của bảng tbl_owner_notice
+                      example: 1
+                    noticeTitle:
+                      type: string
+                      description: Trả về notics_title của bảng tbl_owner_notice
+                      example: "string"
+                    createdAt:
+                      type: string
+                      description: Trả về created_at của bảng tbl_owner_notice
+                      example: "2020-09-09T13:09:49+09:00"
+              total:
+                type: integer
+                description: Số page hiện tại
+                example: 2
+              totalPage:
+                type: integer
+                description: Số dữ liệu hiển thị trên page hiện tại
+                example: 10
+
+        404:
+          description: not found item
+          schema:
+            type: object
+            properties:
+              errors:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: ["駐車場が存在していません。"]
+
+        422:
+          description: field is required.
+          schema:
+            type: object
+            properties:
+              errors:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: ["フィールドは必須項目です"]
+
+        500:
+          description: Something went wrong on our end
+          schema:
+            type: object
+            properties:
+              errors:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: ["終わりに問題が発生しました"]
+
+  /use-booking:
+    post:
+      tags:
+        - Car Parking
+      summary: api use booking
+      operationId: UseBooking
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            type: object
+            required:
+              - bookingID
+              - useDay
+              - paymentPrice
+            properties:
+              bookingID:
+                description: required
+                type: string
+                example: 2020091622297412
+              useDay:
+                description: required| YYYY-MM-DD
+                type: string
+                example: "2020-10-10"
+              useFromTime:
+                description: HH:mm
+                type: string
+                example: "08:00"
+              useToTime:
+                description: HH:mm
+                type: string
+                example: "10:00"
+              paymentPrice:
+                description: required
+                type: integer
+                example: 150
+
+      responses:
+        200:
+          description: Success
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
+                description: Trả về message thông báo thành cong
+                example: 成功
+
+        422:
+          description: field is required.
+          schema:
+            type: object
+            properties:
+              errors:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: ["フィールドは必須項目です"]
+
+        400:
+          description: Trường hợp truyền bookingID khong tồn tại
+          schema:
+            type: object
+            properties:
+              errors:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "受付コードが見つかりません。"
+
+        500:
+          description: Something went wrong on our end
+          schema:
+            type: object
+            properties:
+              errors:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: ["終わりに問題が発生しました"]
+
+  /encrypt:
+    get:
+      tags:
+        - Get New Token
+      summary: web get new token
+      operationId: getNewToken
+      description: Link này chỉ gọi được trên web và có có nhiệm vụ convert thông tin thẻ của khách hàng thành đoạn mã token để gửi về cho backend xử lý thanh toán, nếu gọi link thành công thì trả mô tả như responseCode = 200, trường hợp còn lại sẽ là 400 và 500
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - in: query
+          name: paramEncrypt
+          required: true
+          type: string
+          description: Đoạn mã hóa đã được encode base64 , Đoạn mã trước khi được encrypt có dạng "cardNo=9946128746325411&expireMonth=12&expireYear=2020&firstName=thanh&lastName=do&email=thah@gmail.com&memberId=1&phoneNumber=0312341234&securityCode=123"
+          example: ccpn9p9L2RRhU3eW/FVyWsBWgbijf76tkN67iCE5yytmBwGjRaDRpNOExqFc6pLkJLqR++eu2+AGVWmUcK3Sd+CW+2mv/S9nhVzqRjJwdCBKwPr2ds1iJrLxM0OyX/HWZ9IQuND17Y482wLzGo5/5U2rqMmN5PQjjTfsOdsmkjz54EDDylYSwv5PMevqA7qQH84LxRHZ6/Dzf5R+9t0ASFQ==
+      responses:
+        200:
+          description: Trường hợp các parameters truyền vào đủ và đúng format, đúng thông tin thẻ
+          schema:
+            type: object
+            properties:
+              resultCode:
+                type: integer
+                description: Mã lỗi trả về
+                example: 0
+              tokenObject:
+                type: object
+                properties:
+                  isSecurityCodeSet:
+                    type: boolean
+                    description: trạng thái của mã lỗi trả (không quan trọng)
+                    example: true
+                  maskedCardNo:
+                    type: string
+                    description: Mã số thẻ thanh toán
+                    example: 9946********5411
+                  toBeExpiredAt:
+                    type: string
+                    description: Ngày hết hạn của thẻ thanh toán
+                    example: 102020
+                  token:
+                    type: string
+                    description: Token của thanh toán
+                    example: f103f0a6-cd04-44f2-9b4b-8c507d1a7c9c
+        400:
+          description: Trường hợp truyền đủ parameters nhưng sai thông tin
+          schema:
+            type: object
+            properties:
+              errors:
+                type: object
+                properties:
+                  resultCode:
+                    type: integer
+                    description: Mã lỗi trả về
+                    example: 100
+                  resultMessage:
+                    type: string
+                    description: Message mô tả cho mã lỗi
+                    example: 決済が失敗しました
+        500:
+          description: Trường hợp truyền thiếu parameters trên thanh url sẽ báo lỗi ErrorException hệ thống của laravel ( ví dụ Undefined index -> expireMonth )
+
+  #api calculate parking
+  /parking/calculate:
+    post:
+      tags:
+        - Car Parking
+      summary: Post calculate parking
+      operationId: CalculatePriceParking
+      description: Api cho phép tính toán giá tiền dựa trên thời gian book lịch đặt xe
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - in: header
+          name: Authorization
+          type: string
+        - name: body
+          in: body
+          required: true
+          schema:
+            type: object
+            required:
+              - parkingID
+              - bookingType
+              - startDate
+            properties:
+              parkingID:
+                description: required
+                type: string
+                example: 1
+              bookingTime:
+                description: Mô tả tham số truyền vào theo dạng object
+                type: object
+                properties:
+                  bookingType:
+                    description: bookingType visit_no -> 0 - month (Cho thuê theo tháng) , 1 - period (Cho thuê theo kỳ hạn), 2 - Hours (Cho thuê theo giờ) , 3 - Day (Cho thuê theo ngày)
+                    type: integer
+                    example: 0
+                  startDate:
+                    description: YYYY-MM-DD
+                    type: string
+                    example: "2020-02-02"
+                  startTime:
+                    description: Required if bookingType is hour and day (book theo giờ hoặc theo ngày) HH:mm
+                    type: string
+                    example: 07:20
+                  endTime:
+                    description: Required if bookingType is hour (book theo giờ) HH:mm
+                    type: string
+                    example: 12:00
+                  month:
+                    description: Required if bookingType is month (book tháng)
+                    type: integer
+                    example: 2
+                  endDate:
+                    description: Required if bookingType is period (book period) YYYY-MM-DD
+                    type: string
+                    example: "2020-08-09"
+      responses:
+        200:
+          description: Success
+          schema:
+            type: object
+            properties:
+              price:
+                type: integer
+                description: Tính tiền
+                example: 250
+        401:
+          description: Unauthorized
+          schema:
+            type: object
+            properties:
+              errors:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: ["あなたは無許可です"]
+
+        404:
+          description: Field or value (token) not found
+          schema:
+            type: object
+            properties:
+              errors:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: ["tokenは存在しません"]
+
+        422:
+          description: Field is required.
+          schema:
+            type: object
+            properties:
+              errors:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example:
+                      [
+                        "フィールドは必須項目です, 予約日は現在の日付より前に選択できません。",
+                      ]
+        500:
+          description: Something went wrong on our end
+          schema:
+            type: object
+            properties:
+              errors:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: ["終わりに問題が発生しました"]
+  #api get detail user
+  /user/detail:
+    get:
+      tags:
+        - User
+      summary: get user detail
+      operationId: getUserDetail
+      description: Api hiển thị chi tiết thông tin một detail
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - in: header
+          name: Authorization
+          type: string
+      responses:
+        200:
+          description: success
+          schema:
+            type: object
+            properties:
+              userID:
+                type: integer
+                example: 99444411
+              userType:
+                type: integer
+                example: 12
+              customerType:
+                type: integer
+                example: 1
+              firstName:
+                type: string
+                example: thanh
+              lastName:
+                type: string
+                example: do
+              corporateName:
+                type: string
+                example: dodôdododod
+              departmentName:
+                type: string
+                example: thanhthanhtnah
+              contactName:
+                type: string
+                example: thanh do duc
+              email:
+                type: string
+                example: doducthanh@gmail.com
+              phoneNumber:
+                type: string
+                example: 0349124936
+              zipCd:
+                type: string
+                example: f103f0c9c
+              prefectures:
+                type: string
+                example: 高知県
+              municipality:
+                type: string
+                example: Asha Becker
+              townname:
+                type: string
+                example: 172 Spencer View Apt. 171\nGunnarshire, TN 07644
+              building:
+                type: string
+                example: 136 Sammy Village Suite 098\nOthotown, VA 16551-3041
+        401:
+          description: Unauthorized
+          schema:
+            type: object
+            properties:
+              errors:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: ["あなたは無許可です"]
+        500:
+          description: something went wrong on our end
+          schema:
+            type: object
+            properties:
+              errors:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: ["終わりに問題が発生しました"]
+
+  # Api get latest token
+  /parking/latest-token:
+    get:
+      tags:
+        - Car Parking
+      summary: api get latest token
+      operationId: getLatestToken
+      description: api get latest token
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - in: header
+          name: Authorization
+          type: string
+      responses:
+        200:
+          description: success
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
+                example: 成功
+              data:
+                type: object
+                properties:
+                  cardNo:
+                    type: string
+                    example: "9946********5411"
+                  expireMonth:
+                    type: integer
+                    example: 12
+                  expireYear:
+                    type: integer
+                    example: 2020
+                  firstName:
+                    type: string
+                    example: do
+                  lastName:
+                    type: string
+                    example: thanh
+                  phoneNumber:
+                    type: string
+                    example: "031****234"
+                  securityCode:
+                    type: string
+                    example: "***"
+                  paymentToken:
+                    type: string
+                    example: f103f0a6-cd04-44f2-9b4b-8c507d1a7c9c
+        401:
+          description: Unauthorized
+          schema:
+            type: object
+            properties:
+              errors:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: ["あなたは無許可です"]
+        500:
+          description: something went wrong on our end
+          schema:
+            type: object
+            properties:
+              errors:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: ["終わりに問題が発生しました"]
+  # Api get booking history
+  /booking-history:
+    get:
+      tags:
+        - Car Parking
+      summary: Get booking history
+      operationId: getBookingHistory
+      description: Api get booking history
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - in: header
+          name: Authorization
+          type: string
+        - name: body
+          in: body
+          required: true
+          schema:
+            type: object
+            required:
+              - page
+              - pageSize
+            properties:
+              page:
+                description: int
+                type: integer
+                example: 1
+              pageSize:
+                description: int
+                type: integer
+                example: 10
+      responses:
+        200:
+          description: success
+          schema:
+            type: object
+            properties:
+              data:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    bookingID:
+                      type: long
+                      example: 1199
+                    bookingType:
+                      type: integer
+                      example: 2
+                    parkingID:
+                      type: long
+                      example: 120
+                    parkingName:
+                      type: string
+                      example: "Sedrick Friesen"
+                    date:
+                      type: string
+                      format: "yyyy-MM-dd"
+                      example: "2020-08-24"
+                    fromTime:
+                      type: string
+                      format: "HH:mm"
+                      example: "08:23"
+                    toTime:
+                      type: string
+                      format: "HH:mm"
+                      example: "02:05"
+                    price:
+                      type: double
+                      example: 54
+                    isUse:
+                      type: boolean
+                      example: true
+                    customerType:
+                      type: integer
+                      example: 0
+              total:
+                type: integer
+                example: 10
+              totalPage:
+                type: integer
+                example: 10
+        422:
+          description: field is required.
+          schema:
+            type: object
+            properties:
+              errors:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: ["フィールドは必須項目です"]
+        401:
+          description: Unauthorized
+          schema:
+            type: object
+            properties:
+              errors:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: ["あなたは無許可です"]
+  # Api review
+  /review:
+    get:
+      tags:
+        - Review
+      summary: api list review
+      operationId: getListReview
+      description: api list review
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - in: header
+          name: Authorization
+          type: string
+        - name: body
+          in: body
+          required: true
+          schema:
+            type: object
+            required:
+              - parkingID
+              - page
+              - pageSize
+            properties:
+              parkingID:
+                description: required|long|min:1
+                type: integer
+                format: int64
+                example: 1
+              page:
+                description: required|long|min:1
+                type: integer
+                format: int64
+                example: 1
+              pageSize:
+                description: required|long|min:1
+                type: integer
+                format: int64
+                example: 10
+      responses:
+        200:
+          description: success
+          schema:
+            type: object
+            properties:
+              evaluation:
+                type: object
+                properties:
+                  total:
+                    type: string
+                    format: double(9, 6)
+                    example: 1.2
+                  satisfation:
+                    type: string
+                    format: double(9, 6)
+                    example: 1.2
+                  location:
+                    type: string
+                    format: double(9, 6)
+                    example: 1.2
+                  easeStopping:
+                    type: string
+                    format: double(9, 6)
+                    example: 1.2
+                  fee:
+                    type: string
+                    format: double(9, 6)
+                    example: 1.2
+              review:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    userID:
+                      type: integer
+                      format: int64
+                    userName:
+                      type: string
+                    comment:
+                      type: string
+                    createdAt:
+                      type: string
+                    evaluation:
+                      type: string
+              total:
+                type: integer
+                format: int64
+                example: 1
+              totalPage:
+                type: integer
+                format: int64
+                example: 10
+        401:
+          description: Unauthorized
+          schema:
+            type: object
+            properties:
+              errors:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: ["あなたは無許可です"]
+        422:
+          description: field is required.
+          schema:
+            type: object
+            properties:
+              errors:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: ["フィールドは必須項目です"]
+        500:
+          description: something went wrong on our end
+          schema:
+            type: object
+            properties:
+              errors:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: ["終わりに問題が発生しました"]
+    post:
+      tags:
+        - Review
+      summary: api post new review
+      operationId: postReview
+      description: api post new review
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - in: header
+          name: Authorization
+          type: string
+          required: true
+        - name: body
+          in: body
+          required: true
+          schema:
+            type: object
+            required:
+              - parkingID
+              - satisfation
+              - location
+              - easeStopping
+              - fee
+              - comment
+            properties:
+              parkingID:
+                description: required|long|min:1
+                type: integer
+                format: int64
+                example: 1
+              satisfation:
+                type: string
+                format: double(9, 6)
+                example: 1
+              location:
+                type: string
+                format: double(9, 6)
+                example: 1
+              easeStopping:
+                type: string
+                format: double(9, 6)
+                example: 1
+              fee:
+                type: string
+                format: double(9, 6)
+                example: 1
+              comment:
+                type: string
+      responses:
+        200:
+          description: success
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
+                example: "成功"
+              reviewID:
+                type: integer
+                format: int64
+                example: 12312
+        401:
+          description: Authorization is required.
+          schema:
+            type: object
+            properties:
+              errors:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: ["権限がありません"]
+        404:
+          description: Not Found.
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
+                example: "駐車場が存在していません。"
+        422:
+          description: field is required.
+          schema:
+            type: object
+            properties:
+              errors:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: ["フィールドは必須項目です"]
+        500:
+          description: something went wrong on our end
+          schema:
+            type: object
+            properties:
+              errors:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: ["終わりに問題が発生しました"]
+  # Api favorite/unfavorite carparking
+  /favorite:
+    post:
+      tags:
+        - Favorite/Unfavorite
+      summary: Api favorite/unfavorite carparking
+      operationId: postFavorite
+      description: Api favorite/unfavorite carparking
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - in: header
+          name: Authorization
+          type: string
+          required: true
+        - name: body
+          in: body
+          required: true
+          schema:
+            type: object
+            required:
+              - parkingID
+              - isFavorite
+            properties:
+              parkingID:
+                description: required|long|min:1
+                type: integer
+                format: int64
+                example: 1
+              isFavorite:
+                type: boolean
+                example: true
+      responses:
+        200:
+          description: success
+          schema:
+            type: object
+            properties:
+              isFav:
+                type: boolean
+                example: true
+        401:
+          description: Authorization is required.
+          schema:
+            type: object
+            properties:
+              errors:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: ["権限がありません"]
+        404:
+          description: Parking lot does not exist
+          schema:
+            type: object
+            properties:
+              errors:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: ["駐車場が存在していません"]
+        422:
+          description: field is required.
+          schema:
+            type: object
+            properties:
+              errors:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: ["フィールドは必須項目です"]
+        500:
+          description: something went wrong on our end
+          schema:
+            type: object
+            properties:
+              errors:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: ["終わりに問題が発生しました"]
+    get:
+      tags:
+        - Favorite/Unfavorite
+      summary: Api get favorite carparking of user
+      operationId: getFavorite
+      description: Api get favorite carparking of user
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - in: header
+          name: Authorization
+          type: string
+          required: true
+        - name: body
+          in: body
+          required: true
+          schema:
+            type: object
+            required:
+              - page
+              - pageSize
+            properties:
+              page:
+                description: required|integer|min:1
+                type: integer
+                format: int64
+                example: 3
+              pageSize:
+                description: required|integer|min:1
+                type: integer
+                format: int64
+                example: 1
+      responses:
+        200:
+          description: success
+          schema:
+            $ref: "#/definitions/ListFavoriteCarParking"
+        401:
+          description: Unauthorized
+          schema:
+            type: object
+            properties:
+              errors:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: ["あなたは無許可です"]
+        422:
+          description: field is required.
+          schema:
+            type: object
+            properties:
+              errors:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: ["フィールドは必須項目です"]
+        500:
+          description: something went wrong on our end
+          schema:
+            type: object
+            properties:
+              errors:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: ["終わりに問題が発生しました"]
+  # Call API google place
+  /place/autocomplete:
+    get:
+      tags:
+        - Place
+      summary: Get autocomplete place from keyword
+      operationId: getAutoComplete
+      description: Get autocomplete place from keyword
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - in: header
+          name: Authorization
+          type: string
+        - in: query
+          name: keyword
+          required: true
+          type: string
+          description: The keyword of the place you want to search
+        - in: query
+          name: lat
+          required: true
+          type: number
+          description: latitude
+        - in: query
+          name: lon
+          required: true
+          type: number
+          description: longtitude
+      responses:
+        200:
+          description: success
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
+                example: 成功
+              data:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    place_id:
+                      type: string
+                      example: Eh7lj7Dmub4g5Y-w5LitIOWMl-WMuiDmvKLlj6Pot68iLiosChQKEglnUbG52RdpNBG8SSurt17xTBIUChIJ79x6WWE9aTQR-cafzbhR77s
+                    description:
+                      type: string
+                      example: 台湾 台中 北区 漢口路
+        422:
+          description: field is required.
+          schema:
+            type: object
+            properties:
+              errors:
+                type: object
+                properties:
+                  message:
+                    type: array
+                    items:
+                      type: string
+                      example: キーワードは必須です。
+        500:
+          description: something went wrong on our end
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
+                example: エラー
+  /api/place/detail:
+    get:
+      tags:
+        - Place
+      summary: Get place detail from place_id
+      operationId: getPlaceDetail
+      description: Get place detail from place_id get only location
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - in: header
+          name: Authorization
+          type: string
+        - name: body
+          in: body
+          required: true
+          schema:
+            type: object
+            required:
+              - place_id
+            properties:
+              place_id:
+                type: string
+                example: 113321122
+      responses:
+        200:
+          description: success
+          schema:
+            type: object
+            properties:
+              lat:
+                type: string
+                format: double
+                example: 1.2123
+              lon:
+                type: string
+                format: double
+                example: 1.1111
+        422:
+          description: field is required.
+          schema:
+            type: object
+            properties:
+              errors:
+                type: object
+                properties:
+                  message:
+                    type: array
+                    items:
+                      type: string
+                      example: キーワードは必須です。
+        500:
+          description: something went wrong on our end
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
+                example: エラー
+  # Call API UseTerm
+  /api/use_term:
+    get:
+      tags:
+        - UseTerm
+      summary: Get use term
+      operationId: getUseTerm
+      description: Get use term
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      responses:
+        200:
+          description: success
+          schema:
+            type: object
+            properties:
+              data:
+                type: string
+                format: string
+                example: data use terms
+  /api/search-zipcode-info:
+    get:
+      tags:
+        - GetZipcodeInfo
+      summary: Get zipcode info
+      operationId: GetZipcodeInfo
+      description: Get zipcode info
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            type: object
+            required:
+              - zipcode
+            properties:
+              zipcode:
+                description: required|max:7
+                type: string
+                example: 1000001
+      responses:
+        200:
+          description: success
+          schema:
+            type: object
+            properties:
+              zipCd:
+                type: string
+                example: 100-0001
+              prefectures:
+                type: string
+                example: 東京都
+              municipality:
+                type: string
+                example: 千代田区
+              townname:
+                type: string
+                example: 千代田
+        404:
+          description: The zip code (specified) cannot be found.
+          schema:
+            type: object
+            properties:
+              errors:
+                type: object
+                properties:
+                  message:
+                    type: array
+                    items:
+                      type: string
+                      example: （指定された）郵便番号は見つかりません。
+        422:
+          description: field is required.
+          schema:
+            type: object
+            properties:
+              errors:
+                type: object
+                properties:
+                  message:
+                    type: array
+                    items:
+                      type: string
+                      example: キーワードは必須です。
+        500:
+          description: something went wrong on our end
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
+                example: エラー
+  /api/get-review:
+    get:
+      tags:
+        - GetReview
+      summary: get parking review of user
+      operationId:
+      description: get parking review of user
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - in: header
+          name: Authorization
+          type: string
+        - name: body
+          in: body
+          schema:
+            type: object
+            required:
+              - parkingID
+            properties:
+              parkingID:
+                description: required
+                type: number
+                example: 1
+      responses:
+        200:
+          description: success
+          schema:
+            type: object
+            properties:
+              data:
+                type: object
+                properties:
+                  reviewID:
+                    type: number
+                    example: 1
+                  satisfation:
+                    type: number
+                    example: 2.1
+                  location:
+                    type: number
+                    example: 2.1
+                  easeStopping:
+                    type: number
+                    example: 2.1
+                  fee:
+                    type: number
+                    example: 2.1
+                  comment:
+                    type: string
+                    example: comments
+              resuilt:
+                type: boolean
+                example: true
+        401:
+          description: Unauthorized
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
+                example: ["あなたは無許可です"]
+        422:
+          description: field is required.
+          schema:
+            type: object
+            properties:
+              errors:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: ["フィールドは必須項目です"]
+        500:
+          description: something went wrong on our end
+          schema:
+            type: object
+            properties:
+              errors:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: ["終わりに問題が発生しました"]
+                    /api/get-review:
+  /api/question-categories:
+    get:
+      tags:
+        - Question Category
+      summary: get list question category
+      operationId:
+      description: get list question category
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+      responses:
+        200:
+          description: success
+          schema:
+            type: object
+            properties:
+              data:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    categoryID:
+                      type: string
+                      example: "1"
+                    categoryName:
+                      type: string
+                      example: "Elta Renner"
+        500:
+          description: something went wrong on our end
+          schema:
+            type: object
+            properties:
+              errors:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: ["終わりに問題が発生しました"]
+  /api/questions:
+    get:
+      tags:
+        - Questions
+      summary: get list question of category
+      operationId:
+      description: get list question of category
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - in: query
+          name: categoryID
+          description: Mã số question category
+          required: true
+          type: integer
+        - in: query
+          name: page
+          description: page index
+          required: true
+          type: integer
+        - in: query
+          name: pageSize
+          description: số lượng data 1 page
+          required: true
+          type: integer
+      responses:
+        200:
+          description: success
+          schema:
+            type: object
+            properties:
+              data:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    serialNo:
+                      type: integer
+                      example: 1
+                    title:
+                      type: string
+                      example: "Miss Ova Labadie"
+                    content:
+                      type: string
+                      example: "Alice could bear: she got to the jury, in a hoarse, feeble voice: 'I heard the Queen's absence, and were resting in the kitchen that did not see anything that looked like the look of it in asking."
+              total:
+                type: integer
+                example: 4
+              totalPage:
+                type: integer
+                example: 2
+        422:
+          description: field is required.
+          schema:
+            type: object
+            properties:
+              errors:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example:
+                      [
+                        "カテゴリーIDは必須です。",
+                        "ページは必須です。",
+                        "ページサイズは必須です。",
+                      ]
+        404:
+          description: not found exception
+          schema:
+            type: object
+            properties:
+              errors:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: ["質問のタイプが見つけません"]
+        500:
+          description: something went wrong on our end
+          schema:
+            type: object
+            properties:
+              errors:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: ["終わりに問題が発生しました"]
+  /api/review/{id}:
+    put:
+      tags:
+        - UpdateReview
+      summary: Update review of user
+      operationId:
+      description: Update review of user
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - in: header
+          name: Authorization
+          type: string
+        - name: body
+          in: body
+          required: true
+          schema:
+            type: object
+            required:
+              - satisfation
+              - location
+              - easeStopping
+              - fee
+              - comment
+            properties:
+              satisfation:
+                description: required|numeric
+                type: number
+                format: double
+                example: 2.5
+              location:
+                description: required|numeric
+                type: number
+                format: double
+                example: 2.5
+              easeStopping:
+                description: required|numeric
+                type: number
+                format: double
+                example: 2.5
+              fee:
+                description: required|numeric
+                type: number
+                format: double
+                example: 2.5
+              comment:
+                description: required|numeric
+                type: string
+                example: Comment
+      responses:
+        200:
+          description: success
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
+                example: 成功
+              reviewID:
+                type: number
+                example: 1
+        404:
+          description: user not create review
+          schema:
+            type: object
+            properties:
+              errors:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: あなたは無許可です
+        422:
+          description: field is required.
+          schema:
+            type: object
+            properties:
+              errors:
+                type: object
+                properties:
+                  message:
+                    type: array
+                    items:
+                      type: string
+                      example: キーワードは必須です。
+        500:
+          description: something went wrong on our end
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
+                example: エラー
+  # Api feedback
+  /api/feedback:
+    post:
+      tags:
+        - Feedback
+      summary: api post feedback
+      description: api post feedback from user
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - in: header
+          name: Authorization
+          type: string
+        - name: body
+          in: body
+          required: true
+          schema:
+            type: object
+            required:
+              - feedback
+            properties:
+              feedback:
+                type: string
+      responses:
+        200:
+          description: success
+          schema:
+            type: object
+            properties:
+              result:
+                type: boolean
+                example: true
+        401:
+          description: Authorization is required.
+          schema:
+            type: object
+            properties:
+              errors:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: ["あなたは無許可です"]
+        422:
+          description: field is required.
+          schema:
+            type: object
+            properties:
+              errors:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: ["フィードバックは必須です。"]
+        500:
+          description: something went wrong on our end
+          schema:
+            type: object
+            properties:
+              errors:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: ["終わりに問題が発生しました"]
+  # Api PDF download
+  /api/pdf-payment/{bookingID}:
+    get:
+      tags:
+        - PDF Payment
+      summary: api PDF download Payment
+      description: get link download PDF Payment
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - in: header
+          name: Authorization
+          required: true
+          type: string
+        - in: path
+          name: bookingID
+          required: true
+          type: integer
+      responses:
+        200:
+          description: success
+          schema:
+            type: object
+            properties:
+              link:
+                type: string
+                example: http://localhost:90/api/download-pdf-payment/1/20201211
+        401:
+          description: Authorization is required.
+          schema:
+            type: object
+            properties:
+              errors:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: ["あなたは無許可です"]
+        404:
+          description: url not found
+          schema:
+            type: object
+            properties:
+              errors:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: ["URLは存在しません"]
+        500:
+          description: something went wrong on our end
+          schema:
+            type: object
+            properties:
+              errors:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: ["終わりに問題が発生しました"]
+  /api/pdf-payment-billing/{bookingID}:
+    get:
+      tags:
+        - PDF Payment
+      summary: api PDF download payment billing
+      description: get link download PDF Payment billing
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - in: header
+          name: Authorization
+          required: true
+          type: string
+        - in: path
+          name: bookingID
+          required: true
+          type: integer
+      responses:
+        200:
+          description: success
+          schema:
+            type: object
+            properties:
+              link:
+                type: string
+                example: http://localhost:90/api/download-pdf-payment-billing/123
+        401:
+          description: Authorization is required.
+          schema:
+            type: object
+            properties:
+              errors:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: ["あなたは無許可です"]
+        404:
+          description: url not found
+          schema:
+            type: object
+            properties:
+              errors:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: ["URLは存在しません"]
+        500:
+          description: something went wrong on our end
+          schema:
+            type: object
+            properties:
+              errors:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: ["終わりに問題が発生しました"]
+definitions:
+  ListCarParking:
+    type: object
+    properties:
+      data:
+        type: array
+        items:
+          type: object
+          properties:
+            parkingID:
+              type: integer
+              format: int64
+            parkingName:
+              type: string
+              example: "Name"
+            lat:
+              type: string
+              format: double(9, 6)
+              example: -76.606636
+            lon:
+              type: string
+              format: double(9, 6)
+              example: -76.606636
+            evaluation:
+              type: string
+              format: double(9, 6)
+              example: 12
+            reviewNumber:
+              type: integer
+              format: int64
+            is24Hour:
+              type: boolean
+              example: true
+            openTime:
+              type: string
+              example: "HH:mm"
+            endTime:
+              type: string
+              example: "HH:mm"
+            isFav:
+              type: boolean
+              example: false
+            mgnFlg:
+              description: 0 là liên kết app đối tác, 1 là liên kết ngoài
+              type: integer
+              example: 0
+            menu:
+              type: object
+              properties:
+                time:
+                  type: object
+                  properties:
+                    isEnable:
+                      type: boolean
+                      example: true
+                day:
+                  type: object
+                  properties:
+                    isEnable:
+                      type: boolean
+                      example: true
+                month:
+                  type: object
+                  properties:
+                    isEnable:
+                      type: boolean
+                      example: true
+                period:
+                  type: object
+                  properties:
+                    isEnable:
+                      type: boolean
+                      example: false
+      total:
+        type: integer
+        format: int64
+        example: 2
+      totalPage:
+        type: integer
+        format: int64
+        example: 10
+  ListFavoriteCarParking:
+    type: object
+    properties:
+      data:
+        type: array
+        items:
+          type: object
+          properties:
+            parkingID:
+              type: integer
+              format: int64
+            parkingName:
+              type: string
+              example: "Name"
+            lat:
+              type: string
+              format: double(9, 6)
+              example: -76.606636
+            lon:
+              type: string
+              format: double(9, 6)
+              example: -76.606636
+            evaluation:
+              type: string
+              format: double(9, 6)
+              example: 12
+            reviewNumber:
+              type: integer
+              format: int64
+            is24Hour:
+              type: boolean
+              example: true
+            openTime:
+              type: string
+              example: "HH:mm"
+            endTime:
+              type: string
+              example: "HH:mm"
+            isFav:
+              type: boolean
+              example: true
+            menu:
+              type: object
+              properties:
+                time:
+                  type: object
+                  properties:
+                    isEnable:
+                      type: boolean
+                      example: true
+                day:
+                  type: object
+                  properties:
+                    isEnable:
+                      type: boolean
+                      example: true
+                month:
+                  type: object
+                  properties:
+                    isEnable:
+                      type: boolean
+                      example: true
+                period:
+                  type: object
+                  properties:
+                    isEnable:
+                      type: boolean
+                      example: false
+      total:
+        type: integer
+        format: int64
+        example: 6
+      totalPage:
+        type: integer
+        format: int64
+        example: 3
+  DetailCarParking:
+    type: object
+    properties:
+      parkingID:
+        type: integer
+        format: int64
+      parkingName:
+        type: string
+        example: "Name"
+      lat:
+        type: string
+        format: double(9, 6)
+        example: -76.606636
+      lon:
+        type: string
+        format: double(9, 6)
+        example: -76.606636
+      is24Hour:
+        type: boolean
+        example: true
+      openTime:
+        type: string
+        example: "HH:mm"
+      endTime:
+        type: string
+        example: "HH:mm"
+      zipCode:
+        type: string
+        example: 1234567
+      prefectures:
+        type: string
+      municipality:
+        type: string
+      town:
+        type: string
+      building:
+        type: string
+      isFav:
+        type: boolean
+        example: false
+      mgnFlg:
+        description: 0 là liên kết app đối tác, 1 là liên kết ngoài
+        type: integer
+        example: 0
+      evaluation:
+        type: string
+        format: double(9, 6)
+        example: 12
+      reviewNumber:
+        type: integer
+        format: int64
+      menu:
+        type: object
+        properties:
+          time:
+            type: object
+            properties:
+              isEnable:
+                type: boolean
+                example: true
+              price:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    dayType:
+                      type: integer
+                      format: int64
+                      example: 1
+                    timePrie:
+                      type: array
+                      items:
+                        type: object
+                        properties:
+                          from:
+                            type: string
+                            example: "HH:mm"
+                          to:
+                            type: string
+                            example: "HH:mm"
+                          price:
+                            type: string
+                            format: double(9, 6)
+                            example: 123
+
+              day:
+                type: object
+                properties:
+                  isEnable:
+                    type: boolean
+                    example: true
+                  price:
+                    type: string
+                    format: double(9, 6)
+                    example: 123
+              month:
+                type: object
+                properties:
+                  isEnable:
+                    type: boolean
+                    example: true
+                  price:
+                    type: string
+                    format: double(9, 6)
+                    example: 123
+                  minUse:
+                    type: integer
+                    format: int64
+                    example: 5
+              period:
+                type: object
+                properties:
+                  isEnable:
+                    type: boolean
+                    example: false
+                  price:
+                    type: string
+                    format: double(9, 6)
+                    example: 123
+                  startTime:
+                    type: string
+                    format: "HH:mm"
+                    example: "02:05"
+                  endTime:
+                    type: string
+                    format: "HH:mm"
+                    example: "02:05"
+                  startDate:
+                    type: string
+                    format: "yyyy-MM-dd"
+                    example: "2000-03-02"
+                  endDate:
+                    type: string
+                    format: "yyyy-MM-dd"
+                    example: "2000-03-03"
+                  dayEnable:
+                    type: boolean
+                    example: true
+                  weekEnable:
+                    type: boolean
+                    example: false
+                  weekDay:
+                    description: valid value flag period_monday, period_tuesday, period_wednesday, period_thursday, period_friday, period_saturday, period_sunday, period_holiday
+                    type: array
+                    items:
+                      type: string
+                    example:
+                      [
+                        "true",
+                        "false",
+                        "false",
+                        "false",
+                        "true",
+                        "false",
+                        "false",
+                        "false",
+                      ]
+      media:
+        type: object
+        properties:
+          images:
+            type: string
+            example: ["link1", "link2", "link3"]
+          videos:
+            type: string
+            example: ["link1", "link2", "link3"]
+      parkingSpace:
+        type: object
+        properties:
+          parkingForm:
+            type: string
+            example: [0, 1, 2]
+          kbnStandard:
+            type: boolean
+            example: true
+          kbn3no:
+            type: boolean
+            example: true
+          kbnLightcar:
+            type: boolean
+            example: true
+          maxSpace:
+            type: string
+            example: [length, width, height]
+          minSpace:
+            type: string
+            example: [length, width, height]
+      warning:
+        type: string
+      reEnter:
+        type: boolean
+        example: true
+      netPayoff:
+        type: boolean
+        example: true
+      localPayoff:
+        type: boolean
+        example: true
+# Added by API Auto Mocking Plugin
+host: virtserver.swaggerhub.com
+basePath: /
+schemes:
+  - https

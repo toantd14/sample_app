@@ -1,0 +1,40 @@
+body {
+    min-height: 100vh;
+}
+
+.box-container {
+    min-height: calc(100vh - 126px);
+}
+
+.timepicker {
+    text-align: center;
+}
+
+.datepicker {
+    text-align: center;
+}
+
+.a-part-of-content {
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+}
+
+.div-hident {
+    display: none;
+}
+
+@media only screen and (max-width: 767px) {
+    .div-hident {
+        display: block;
+    }
+}
+
+.label-text {
+    padding-left: 80px;
+}
+
+.padding-top-label {
+    padding-top: 10px;
+}

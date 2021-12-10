@@ -1,0 +1,16 @@
+@media screen and (max-width: 425px) {
+    .px-xs {
+        padding-left: 15px !important;
+        padding-right: 15px !important;
+    }
+    .float-xs-none {
+        float: none !important;
+    }
+    .box-table {
+        overflow-x: auto;
+
+        .table {
+            min-width: 500px;
+        }
+    }
+}

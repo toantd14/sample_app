@@ -1,0 +1,34 @@
+.timepicker {
+    text-align: center;
+    position: relative;
+}
+
+#time-container ul {
+    width: 100%;
+    background-color: #fff;
+    border: 1px solid #aaa;
+    margin: 0;
+    padding: 0;
+    text-align: center;
+    list-style: none;
+    padding: 0;
+    overflow: auto;
+    overflow-x: hidden;
+    height: 215px;
+    box-sizing: content-box;
+}
+
+#time-container ul li {
+    padding: 2px 0;
+    cursor: pointer;
+}
+
+#time-container ul li:hover {
+    background-color: #dadada;
+}
+
+#time-container ul li .time-pick {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}

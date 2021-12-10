@@ -1,0 +1,23 @@
+.main-header {
+    display: none !important;
+}
+
+.main-footer {
+    display: none !important;
+}
+
+@media only screen and (max-width: 992px) {
+    .user-edit-btn-submit, .user-edit-btn-cancel {
+        width: 40%!important;
+    }
+}
+
+nav.navbar.navbar-expand-lg.navbar-light.bg-light {
+    display: none;
+}
+
+@media only screen and (min-width: 768px) {
+    .div-hident {
+        display: none;
+    }
+}

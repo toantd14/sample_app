@@ -1,0 +1,36 @@
+header {
+    border: 1px solid #000;
+    padding: 20px 0;
+}
+
+.notifications-page {
+    .top-page-content {
+        border: 1px solid #000;
+        padding: 40px 120px;
+        margin: unset;
+    }
+
+    .card {
+        border: unset;
+        box-shadow: unset;
+    }
+
+    .notifications-page-content {
+        .time-noti input {
+            width: 100%;
+        }
+
+        .action button {
+            width: 100%;
+        }
+
+        textarea {
+            width: 100%;
+            padding: 10px;
+        }
+
+        .field_required {
+            color: #e52929;
+        }
+    }
+}

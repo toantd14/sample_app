@@ -1,0 +1,14 @@
+.main-footer {
+    &__text {
+        color: #212529;
+    }
+}
+
+.logo{
+    float: unset !important;
+    text-align: center;
+}
+
+.box-container {
+    min-height: calc(100vh - 181px);
+}

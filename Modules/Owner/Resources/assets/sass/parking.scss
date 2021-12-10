@@ -1,0 +1,18 @@
+.parking-table {
+    &__tr {
+        line-height: 30px;
+        .parking_menu {
+            min-width: 140px;
+        }
+    }
+}
+
+@media screen and (max-width: 768px) {
+    .parking-table {
+        min-width: 500px;
+    }
+}
+
+.box-table {
+    overflow-x: auto;
+}
